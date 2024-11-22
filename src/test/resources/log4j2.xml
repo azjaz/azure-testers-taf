@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration packages="com.epam.ta.reportportal.log4j.appender" status="INFO">
+    <Appenders>
+        <Console name="Console">
+            <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout>
+                <Pattern>%d{HH:mm:ss} %p %c{2} [%t] %l %m%n</Pattern>
+            </PatternLayout>
+        </Console>
+        <RollingFile
+                name="RollingFile"
+                fileName="target/logs/rp-taf.log"
+                filePattern="target/logs/%d{dd-MMM}/rp-taf.log"
+                ignoreExceptions="false"
+                append="true">
+            <ThresholdFilter level="INFO" onMatch="ACCEPT" onMismatch="DENY"/>
+            <PatternLayout>
+                <Pattern>%d{HH:mm:ss} %p %c{2} [%t] %l %m%n</Pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true"/>/
+            </Policies>
+            <DefaultRolloverStrategy max="5"/>
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <Root level="trace">
+            <AppenderRef ref="Console"/>
+            <AppenderRef ref="RollingFile"/>
+        </Root>
+    </Loggers>
+</Configuration>
