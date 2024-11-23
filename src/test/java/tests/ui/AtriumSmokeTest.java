@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import tests.ui.BaseTest;
 
 import java.util.List;
+import java.util.Random;
 
 public class AtriumSmokeTest extends BaseTest {
 
@@ -16,6 +17,8 @@ public class AtriumSmokeTest extends BaseTest {
             "Onions", "Bell Peppers", "Olives", "Pineapple", "Ham", "Sausage", "Bacon", "Jalapenos", "Tomatoes");
 
     private final String ingredient = RandomStringUtils.random(8, true, false);
+
+    private final int numberOfColumns = new Random().ints(3, 9).findFirst().getAsInt();
 
     @Test
     void checkPresenceOfPizzaList() {
@@ -33,5 +36,11 @@ public class AtriumSmokeTest extends BaseTest {
     void checkPresenceOfAddedIngredient() {
         String addedIngredientFromPage = openPage().goToAddIngredientPage().addIngredient(ingredient);
         Assertions.assertThat(addedIngredientFromPage).isEqualTo(ingredient);
+    }
+
+    @Test
+    void checkNumberOfColumns() {
+        int numberOfColumnsOnPage = openPage().goToSettingsPage().changeNumberOfColumns(numberOfColumns);
+        Assertions.assertThat(numberOfColumnsOnPage).isEqualTo(numberOfColumns);
     }
 }

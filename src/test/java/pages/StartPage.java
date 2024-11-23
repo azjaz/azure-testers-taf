@@ -17,6 +17,9 @@ public class StartPage extends AbstractPage {
     @FindBy(xpath = "//a[contains(text(), 'Our Ingredients')]")
     private WebElement ingredientMenuButton;
 
+    @FindBy(xpath = "//a[contains(text(), 'Site Settings')]")
+    private WebElement settingsMenuButton;
+
     @FindBy(xpath = "//a[contains(text(), 'Manage Ingredients')]/../ul/li//a[contains(text(), 'Add new')]")
     private WebElement addNewIngredientMenuButton;
 
@@ -33,5 +36,10 @@ public class StartPage extends AbstractPage {
     public AddIngredientPage goToAddIngredientPage() {
         waitVisibility(addNewIngredientMenuButton).click();
         return new AddIngredientPage();
+    }
+
+    public SettingsPage goToSettingsPage() {
+        waitVisibility(settingsMenuButton).click();
+        return new SettingsPage();
     }
 }

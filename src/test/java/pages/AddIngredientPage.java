@@ -12,9 +12,6 @@ public class AddIngredientPage extends AbstractPage {
     @FindBy(xpath = "//h1[contains(text(), 'Ingredients list')]")
     private WebElement listIngredientTitle;
 
-    @FindBy(xpath = "//button[contains(text(), 'Submit')]")
-    private WebElement submitButton;
-
     @FindBy(xpath = "//label[contains(text(), 'Title')]/../div/input")
     private WebElement ingredientNameInput;
 

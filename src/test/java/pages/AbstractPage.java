@@ -5,6 +5,7 @@ import driver.DriverManager;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -16,6 +17,9 @@ public abstract class AbstractPage {
 
     protected WebDriver driver;
     protected static final long DRIVER_TIMEOUT = 10;
+
+    @FindBy(xpath = "//button[contains(text(), 'Submit')]")
+    protected WebElement submitButton;
 
     public AbstractPage() {
         DriverManager manager = new DriverManager();
