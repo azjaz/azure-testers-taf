@@ -1,10 +1,15 @@
 package tests.api;
 
 import io.restassured.http.Method;
+import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import models.ColumnPizzaModelRQ;
 import models.Pizza;
 import org.apache.http.HttpStatus;
+import org.assertj.core.api.Assertions;
+import org.hamcrest.Matcher;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -33,8 +38,8 @@ public class BackendContainerTest extends BaseBackendTest{
     }
 
     @Test
-    void getPizzaIngredients() {
-        String responseBody = response.getBody().print();
-
+    void getPizzaIngredientsBody() {
+        String responseRepresentation = response.asString();
+        Assertions.assertThat(responseRepresentation).isNotEmpty();
     }
 }
