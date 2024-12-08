@@ -3,7 +3,6 @@ package tests.ui;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
-import tests.ui.BaseTest;
 
 import java.util.List;
 import java.util.Random;
