@@ -12,7 +12,9 @@ import org.apache.logging.log4j.Logger;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import static io.restassured.RestAssured.given;
 
@@ -22,9 +24,17 @@ public class RestClient {
         RestAssured.baseURI = baseURI;
     }
 
+    private Map<String, String> headers = new HashMap<>();
+
     public <T> Response getResponse(String basePath, Method method, T body) {
+        headers.put("Accept-encoding", "gzip, deflate, br");
+        headers.put("Connection", "keep-alive");
+        headers.put("Host", "https://cont-column.ashydesert-d88d6f28.eastus.azurecontainerapps.io");
+
         RequestSpecification spec = given()
                 .contentType(ContentType.JSON)
+                .accept("*/*")
+                .headers(headers)
                 .basePath(basePath);
 
         if (body != null) {

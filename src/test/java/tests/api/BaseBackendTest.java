@@ -1,5 +1,7 @@
 package tests.api;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import service.ConfigFileReader;
 import service.IConfigFileReader;
 import utils.RestClient;
@@ -11,6 +13,8 @@ public class BaseBackendTest {
     private final ThreadLocal<RestClient> restClientThreadLocal = new ThreadLocal<>();
     protected final IConfigFileReader config = new ConfigFileReader();
 
+    protected final Logger logger = LogManager.getRootLogger();
+
     protected RestClient getRestClient() {
         return restClientThreadLocal.get();
     }
@@ -19,7 +23,12 @@ public class BaseBackendTest {
     protected void setup() {
         RestClient restClient = new RestClient();
         restClientThreadLocal.set(restClient);
-        getRestClient().setBaseURI("http://" + config.getHost());
+        String appName = config.getApplication();
+        if (appName.equals("column") || appName.equals("dome")) {
+            getRestClient().setBaseURI(config.getApiHost());
+        } else {
+            getRestClient().setBaseURI("http://" + config.getHost());
+        }
     }
 
     @AfterEach

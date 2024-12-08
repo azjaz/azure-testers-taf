@@ -19,7 +19,7 @@ public class BackendSmokeTest extends BaseBackendTest{
     }
 
     @Test
-    protected void getStatusCode() {
+    void getStatusCode() {
         response.then()
                 .assertThat()
                 .statusCode(HttpStatus.SC_OK);

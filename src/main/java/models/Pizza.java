@@ -1,0 +1,22 @@
+package models;
+
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import lombok.*;
+
+@AllArgsConstructor
+@Getter
+@Setter
+@NoArgsConstructor
+@Data
+@Builder
+@JsonNaming(PropertyNamingStrategies.UpperCamelCaseStrategy.class)
+public class Pizza {
+
+    public Pizza(String name) {
+        this.name = name;
+    }
+
+    private String name;
+    private String [] ingredients;
+}

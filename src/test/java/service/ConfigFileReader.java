@@ -37,6 +37,15 @@ public class ConfigFileReader implements IConfigFileReader {
     public String getHost() {
         return properties.getProperty("http.host");
     }
+    @Override
+    public String getApplication() {
+        return properties.getProperty("app.name");
+    }
+
+    @Override
+    public String getApiHost() {
+        return properties.getProperty("api.host");
+    }
 
     @Override
     public String getValue(String key) {

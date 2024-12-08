@@ -8,6 +8,10 @@ public interface IConfigFileReader {
 
     String getHost();
 
+    String getApplication();
+
+    String getApiHost();
+
     String getValue(String key);
 
 }
