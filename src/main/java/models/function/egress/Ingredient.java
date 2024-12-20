@@ -1,4 +1,4 @@
-package models;
+package models.function.egress;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
@@ -11,7 +11,8 @@ import lombok.*;
 @Data
 @Builder
 @JsonNaming(PropertyNamingStrategies.UpperCamelCaseStrategy.class)
-public class ColumnPizzaModelRQ {
-    private Pizza[] pizzas;
+public class Ingredient {
 
+    String name;
+    Integer quantity;
 }

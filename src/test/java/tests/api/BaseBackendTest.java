@@ -24,10 +24,10 @@ public class BaseBackendTest {
         RestClient restClient = new RestClient();
         restClientThreadLocal.set(restClient);
         String appName = config.getApplication();
-        if (appName.equals("column") || appName.equals("dome")) {
-            getRestClient().setBaseURI(config.getApiHost());
-        } else {
+        if (appName.equals("atrium") || appName.equals("balcony")) {
             getRestClient().setBaseURI("http://" + config.getHost());
+        } else {
+            getRestClient().setBaseURI(config.getApiHost());
         }
     }
 

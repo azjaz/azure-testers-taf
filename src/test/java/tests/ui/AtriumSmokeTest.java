@@ -9,9 +9,6 @@ import java.util.Random;
 
 public class AtriumSmokeTest extends BaseTest {
 
-    private final List<String> expectedPizzaItemsFirstPage = List.of("Quattro Formaggi", "Capricciosa",
-            "Hawaiian", "Rustica", "Margherita", "Pugliese");
-
     private final List<String> expectedIngredientsItems = List.of("Pepperoni", "Mushrooms",
             "Onions", "Bell Peppers", "Olives", "Pineapple", "Ham", "Sausage", "Bacon", "Jalapenos", "Tomatoes");
 

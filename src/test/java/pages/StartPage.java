@@ -1,5 +1,6 @@
 package pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 
@@ -23,6 +24,11 @@ public class StartPage extends AbstractPage {
     @FindBy(xpath = "//a[contains(text(), 'Manage Ingredients')]/../ul/li//a[contains(text(), 'Add new')]")
     private WebElement addNewIngredientMenuButton;
 
+    @FindBy(xpath = "//a[contains(text(), 'page')]")
+    private WebElement pagination;
+
+    private String xpathToPizzaPrice = "//h1[contains(text(), '%s')]/..//i[contains(text(), 'Price')]";
+
     public List<String> getCatalogItems() {
         waitVisibility(catalogTitle);
         return catalogItems.stream().map(WebElement::getText).collect(Collectors.toList());
@@ -41,5 +47,16 @@ public class StartPage extends AbstractPage {
     public SettingsPage goToSettingsPage() {
         waitVisibility(settingsMenuButton).click();
         return new SettingsPage();
+    }
+
+    public StartPage paginate() {
+        waitVisibility(catalogTitle);
+        pagination.click();
+        return this;
+    }
+
+    public WebElement findPizzaPriceElement(String pizza) {
+        waitVisibility(catalogTitle);
+        return driver.findElement(By.xpath(String.format(xpathToPizzaPrice, pizza)));
     }
 }

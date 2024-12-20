@@ -2,8 +2,8 @@ package tests.api;
 
 import io.restassured.http.Method;
 import io.restassured.response.Response;
-import models.ColumnPizzaModelRQ;
-import models.Pizza;
+import models.container.ColumnPizzaModelRQ;
+import models.container.Pizza;
 import org.apache.http.HttpStatus;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

@@ -2,6 +2,7 @@ package utils;
 
 import com.google.gson.Gson;
 import io.restassured.RestAssured;
+import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.http.ContentType;
 import io.restassured.http.Method;
 import io.restassured.response.Response;
@@ -26,37 +27,45 @@ public class RestClient {
 
     private Map<String, String> headers = new HashMap<>();
 
-    public <T> Response getResponse(String basePath, Method method, T body) {
+    public <T> Response getResponse(String basePath, Method method, Map<String, String> queryParams, T body) {
         headers.put("Accept-encoding", "gzip, deflate, br");
         headers.put("Connection", "keep-alive");
-        headers.put("Host", "https://cont-column.ashydesert-d88d6f28.eastus.azurecontainerapps.io");
 
-        RequestSpecification spec = given()
-                .contentType(ContentType.JSON)
-                .accept("*/*")
-                .headers(headers)
-                .basePath(basePath);
+        RequestSpecification spec = new RequestSpecBuilder()
+                .setBasePath(basePath)
+                .setAccept("*/*")
+                .setContentType(ContentType.JSON)
+                .addHeaders(headers)
+                .build();
 
         if (body != null) {
             spec = spec.body(body);
         }
+        if (queryParams != null) {
+            spec = spec.queryParams(queryParams);
+        }
         switch (method) {
             case POST:
-                return spec
-                        .when()
+                return given()
+                        .spec(spec)
                         .post()
                         .andReturn();
+
             case DELETE:
-                return spec
-                        .when()
+                return given()
+                        .spec(spec)
                         .delete()
                         .andReturn();
             default:
-                return spec
-                        .when()
+                return given()
+                        .spec(spec)
                         .request(method)
                         .andReturn();
         }
+    }
+
+    public <T> Response getResponse(String basePath, Method method, T body) {
+        return getResponse(basePath, method, null, body);
     }
 
     public Response getResponse(String basePath, Method method) {

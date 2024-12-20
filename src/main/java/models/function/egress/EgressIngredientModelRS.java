@@ -1,4 +1,4 @@
-package models;
+package models.function.egress;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
@@ -11,12 +11,8 @@ import lombok.*;
 @Data
 @Builder
 @JsonNaming(PropertyNamingStrategies.UpperCamelCaseStrategy.class)
-public class Pizza {
+public class EgressIngredientModelRS {
 
-    public Pizza(String name) {
-        this.name = name;
-    }
-
-    private String name;
-    private String [] ingredients;
+    double totalPrice;
+    IngredientRS [] ingredients;
 }
