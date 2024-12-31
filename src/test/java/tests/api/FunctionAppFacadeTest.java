@@ -27,7 +27,7 @@ public class FunctionAppFacadeTest extends BaseBackendTest {
     protected void setup() {
         super.setup();
         FacadeRegionModelRQ body = FacadeRegionModelRQ.builder()
-                .region("Aurelia")
+                .region(expectedRegions.get(2))
                 .ingredients(new Ingredient[]
                         {Ingredient.builder().name("Onions").quantity(2).build(),
                                 Ingredient.builder().name("Bell Peppers").quantity(1).build()})

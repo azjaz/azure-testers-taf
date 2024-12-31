@@ -16,7 +16,6 @@ public class DriverManager {
     private static final ThreadLocal<WebDriver> driver = new ThreadLocal<>();
     private Browsers browser;
 
-//use injection for driver config?
     private static final IConfigFileReader driverConfig = new ConfigFileReader();
     private static final Logger logger = LogManager.getRootLogger();
 

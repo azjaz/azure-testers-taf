@@ -9,6 +9,8 @@ import org.openqa.selenium.WebDriver;
 
 import java.util.List;
 
+import static constants.ServiceConstants.PORT;
+
 
 public abstract class BaseTest {
 
@@ -26,7 +28,7 @@ public abstract class BaseTest {
     protected void browserSetUp() {
         manager = new DriverManager();
         driver = manager.getDriver();
-        host = "http://" + manager.getHostAddress();
+        host = "http://" + manager.getHostAddress() + PORT.getValue();
     }
     protected StartPage openPage() {
         driver.get(host);

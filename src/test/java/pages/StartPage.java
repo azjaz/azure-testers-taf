@@ -27,6 +27,12 @@ public class StartPage extends AbstractPage {
     @FindBy(xpath = "//a[contains(text(), 'page')]")
     private WebElement pagination;
 
+    @FindBy(xpath = "//a[contains(text(), 'Download report')]")
+    private WebElement downloadReportButton;
+
+    @FindBy(xpath = "//a[contains(text(), 'Manage Pizzas')]")
+    private WebElement managePizzasButton;
+
     private String xpathToPizzaPrice = "//h1[contains(text(), '%s')]/..//i[contains(text(), 'Price')]";
 
     public List<String> getCatalogItems() {
@@ -47,6 +53,16 @@ public class StartPage extends AbstractPage {
     public SettingsPage goToSettingsPage() {
         waitVisibility(settingsMenuButton).click();
         return new SettingsPage();
+    }
+
+    public DownloadReportPage goToDownloadReportPage() {
+        waitVisibility(downloadReportButton).click();
+        return new DownloadReportPage();
+    }
+
+    public ManagePizzasPage goToManagePizzasPage() {
+        waitVisibility(managePizzasButton).click();
+        return new ManagePizzasPage();
     }
 
     public StartPage paginate() {

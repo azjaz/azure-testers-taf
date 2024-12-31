@@ -1,6 +1,7 @@
 package tests.api;
 
 import io.restassured.http.Method;
+import io.restassured.path.xml.XmlPath;
 import io.restassured.response.Response;
 import models.container.ColumnPizzaModelRQ;
 import models.container.Pizza;
@@ -12,18 +13,20 @@ import org.junit.jupiter.api.Test;
 public class BackendContainerTest extends BaseBackendTest{
 
     private Response response = null;
-    private String testPizza = "Xavier";
+    private final String reportTitleExpected = "Ingredients distribution";
 
     @BeforeEach
     @Override
     protected void setup() {
         super.setup();
+        String path = "/";
+        getRestClient().setBaseURI(config.getValue("api.container.host"));
         ColumnPizzaModelRQ body = ColumnPizzaModelRQ.builder()
                 .pizzas(new Pizza[]
                         {Pizza.builder().name("Xavier").ingredients(new String[]{"Onion", "Jam", "Cheese"}).build(),
                         Pizza.builder().name("Yvonne").ingredients(new String[]{"Ketchup", "Cheese"}).build()})
                 .build();
-        response = getRestClient().getResponse(config.getApiHost(), Method.POST, body);
+        response = getRestClient().getResponse(path, Method.POST, body);
     }
 
     @Test
@@ -37,5 +40,13 @@ public class BackendContainerTest extends BaseBackendTest{
     void getPizzaIngredientsBody() {
         String responseRepresentation = response.asString();
         Assertions.assertThat(responseRepresentation).isNotEmpty();
+    }
+
+    @Test
+    void getPizzaIngredientsBodyElement() {
+        String responseRepresentation = response.asString();
+        XmlPath document = new XmlPath(XmlPath.CompatibilityMode.HTML, responseRepresentation);
+        String reportTitle = document.getString("html.body.depthFirst()find() { section -> section.h1.text() == 'Ingredients distribution' }");
+        Assertions.assertThat(reportTitle).contains(reportTitleExpected);
     }
 }
