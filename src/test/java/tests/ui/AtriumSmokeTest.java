@@ -5,7 +5,6 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
-import java.util.Random;
 
 public class AtriumSmokeTest extends BaseTest {
 
@@ -14,7 +13,6 @@ public class AtriumSmokeTest extends BaseTest {
 
     private final String ingredient = RandomStringUtils.random(8, true, false);
 
-    private final int numberOfColumns = new Random().ints(3, 9).findFirst().getAsInt();
 
     @Test
     void checkPresenceOfPizzaList() {
@@ -36,7 +34,7 @@ public class AtriumSmokeTest extends BaseTest {
 
     @Test
     void checkNumberOfColumns() {
-        int numberOfColumnsOnPage = openPage().goToSettingsPage().changeNumberOfColumns(numberOfColumns);
-        Assertions.assertThat(numberOfColumnsOnPage).isEqualTo(numberOfColumns);
+        int numberOfColumnsOnPage = openPage().goToSettingsPage().changeNumberOfColumns(testNumber);
+        Assertions.assertThat(numberOfColumnsOnPage).isEqualTo(testNumber);
     }
 }

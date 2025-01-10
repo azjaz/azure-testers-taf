@@ -49,4 +49,13 @@ public class BackendContainerTest extends BaseBackendTest{
         String reportTitle = document.getString("html.body.depthFirst()find() { section -> section.h1.text() == 'Ingredients distribution' }");
         Assertions.assertThat(reportTitle).contains(reportTitleExpected);
     }
+
+    @Test
+    void getPizzaImageFromBody() {
+        String expectedValue = "Image";
+        String responseRepresentation = response.asString();
+        XmlPath document = new XmlPath(XmlPath.CompatibilityMode.HTML, responseRepresentation);
+        String reportTitle = document.getString("html.body.section.find()");
+        Assertions.assertThat(reportTitle).contains(expectedValue);
+    }
 }

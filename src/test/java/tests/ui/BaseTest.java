@@ -1,6 +1,7 @@
 package tests.ui;
 
 
+import org.apache.commons.lang3.RandomStringUtils;
 import pages.StartPage;
 import driver.DriverManager;
 import org.junit.jupiter.api.AfterEach;
@@ -8,6 +9,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.WebDriver;
 
 import java.util.List;
+import java.util.Random;
 
 import static constants.ServiceConstants.PORT;
 
@@ -22,6 +24,9 @@ public abstract class BaseTest {
             "Hawaiian", "Rustica", "Margherita", "Pugliese");
     protected final List<String> expectedPizzaItemsSecondPage = List.of("Quattro Stagioni", "Sicilian",
             "Marinara");
+
+    protected final int testNumber = new Random().ints(3, 9).findFirst().getAsInt();
+    protected final String testString = RandomStringUtils.randomAlphabetic(testNumber);
 
 
     @BeforeEach

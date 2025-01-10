@@ -2,7 +2,6 @@ package pages;
 
 
 import driver.DriverManager;
-import org.openqa.selenium.Alert;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -11,7 +10,10 @@ import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import java.io.File;
 import java.time.Duration;
+
+import static constants.ServiceConstants.PATH_TO_IMAGE_FILE;
 
 
 public abstract class AbstractPage {
@@ -19,8 +21,11 @@ public abstract class AbstractPage {
     protected WebDriver driver;
     protected static final long DRIVER_TIMEOUT = 10;
 
+    protected static File imgFile = new File(PATH_TO_IMAGE_FILE.getValue() + ".jpg");
+
     @FindBy(xpath = "//button[contains(text(), 'Submit')]")
     protected WebElement submitButton;
+
 
     public AbstractPage() {
         DriverManager manager = new DriverManager();

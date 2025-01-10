@@ -24,7 +24,7 @@ public class StartPage extends AbstractPage {
     @FindBy(xpath = "//a[contains(text(), 'Manage Ingredients')]/../ul/li//a[contains(text(), 'Add new')]")
     private WebElement addNewIngredientMenuButton;
 
-    @FindBy(xpath = "//a[contains(text(), 'page')]")
+    @FindBy(xpath = "//a[contains(text(), 'Next page')]")
     private WebElement pagination;
 
     @FindBy(xpath = "//a[contains(text(), 'Download report')]")
@@ -33,7 +33,13 @@ public class StartPage extends AbstractPage {
     @FindBy(xpath = "//a[contains(text(), 'Manage Pizzas')]")
     private WebElement managePizzasButton;
 
+    @FindBy(xpath = "//a[contains(text(), 'Add new')]")
+    private WebElement addNewPizzaButton;
+
     private String xpathToPizzaPrice = "//h1[contains(text(), '%s')]/..//i[contains(text(), 'Price')]";
+    private String xpathToPizzaName = "//div[contains(@class, 'card')]/div/div/h1[contains(text(), '%s')]";
+    private String xpathToPizzaImg = "//h1[contains(text(), '%s')]/../../..//img[contains(@src, '.png')]";
+
 
     public List<String> getCatalogItems() {
         waitVisibility(catalogTitle);
@@ -48,6 +54,11 @@ public class StartPage extends AbstractPage {
     public AddIngredientPage goToAddIngredientPage() {
         waitVisibility(addNewIngredientMenuButton).click();
         return new AddIngredientPage();
+    }
+
+    public AddPizzaPage goToAddPizzaPage() {
+        waitVisibility(addNewPizzaButton).click();
+        return new AddPizzaPage();
     }
 
     public SettingsPage goToSettingsPage() {
@@ -74,5 +85,15 @@ public class StartPage extends AbstractPage {
     public WebElement findPizzaPriceElement(String pizza) {
         waitVisibility(catalogTitle);
         return driver.findElement(By.xpath(String.format(xpathToPizzaPrice, pizza)));
+    }
+
+    public String getLastAddedPizzaName(String pizzaName) {
+        waitVisibility(catalogTitle);
+        return driver.findElement(By.xpath(String.format(xpathToPizzaName, pizzaName))).getText();
+    }
+
+    public WebElement getLastAddedPizzaImage(String pizzaName) {
+        waitVisibility(catalogTitle);
+        return driver.findElement(By.xpath(String.format(xpathToPizzaImg, pizzaName)));
     }
 }
