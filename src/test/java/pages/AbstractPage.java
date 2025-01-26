@@ -23,6 +23,8 @@ public abstract class AbstractPage {
 
     protected static File imgFile = new File(PATH_TO_IMAGE_FILE.getValue() + ".jpg");
 
+    protected String xpathToOrderStatuses = "//h1[contains(text(), '%s')]/..//ul/li[contains(text(), 'Status:')]";
+
     @FindBy(xpath = "//button[contains(text(), 'Submit')]")
     protected WebElement submitButton;
 
@@ -45,6 +47,15 @@ public abstract class AbstractPage {
 
     public void clickElementWithJS(WebElement element) {
         ((JavascriptExecutor) driver).executeScript("arguments[0].click();", element);
+    }
+
+    public void implicitWait(long seconds) {
+        long milliseconds = seconds * 1000;
+        try {
+            Thread.sleep(milliseconds);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }
 

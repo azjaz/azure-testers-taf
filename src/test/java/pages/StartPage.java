@@ -39,6 +39,7 @@ public class StartPage extends AbstractPage {
     private String xpathToPizzaPrice = "//h1[contains(text(), '%s')]/..//i[contains(text(), 'Price')]";
     private String xpathToPizzaName = "//div[contains(@class, 'card')]/div/div/h1[contains(text(), '%s')]";
     private String xpathToPizzaImg = "//h1[contains(text(), '%s')]/../../..//img[contains(@src, '.png')]";
+    private String xpathToOrderButton = "//h1[contains(text(), '%s')]/..//a[text()='Order']";
 
 
     public List<String> getCatalogItems() {
@@ -95,5 +96,10 @@ public class StartPage extends AbstractPage {
     public WebElement getLastAddedPizzaImage(String pizzaName) {
         waitVisibility(catalogTitle);
         return driver.findElement(By.xpath(String.format(xpathToPizzaImg, pizzaName)));
+    }
+
+    public OrderPage pressButtonOrderPizza(String pizza) {
+        waitVisibility(driver.findElement(By.xpath(String.format(xpathToOrderButton, pizza)))).click();
+        return new OrderPage();
     }
 }

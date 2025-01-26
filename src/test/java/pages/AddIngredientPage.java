@@ -18,7 +18,7 @@ public class AddIngredientPage extends AbstractPage {
     @FindBy(xpath = "//label[contains(text(), 'Description')]/../div/textarea")
     private WebElement ingredientDescriptionInput;
 
-    String xpathOutput = "//tbody/tr/td[contains(text(), '%s')]";
+    private String xpathOutput = "//tbody/tr/td[contains(text(), '%s')]";
 
     public String addIngredient(String ingredient) {
         waitVisibility(addIngredientTitle);
