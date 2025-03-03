@@ -1,17 +1,17 @@
 package tests.ui;
 
 
-import org.apache.commons.lang3.RandomStringUtils;
-import pages.StartPage;
 import driver.DriverManager;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.WebDriver;
+import pages.StartPage;
 
 import java.util.List;
 import java.util.Random;
 
-import static constants.ServiceConstants.PORT;
+import static service.AzureConnectConfig.getAzureHost;
 
 
 public abstract class BaseTest {
@@ -28,12 +28,16 @@ public abstract class BaseTest {
     protected final int testNumber = new Random().ints(3, 9).findFirst().getAsInt();
     protected final String testString = RandomStringUtils.randomAlphabetic(testNumber);
 
+    BaseTest() {
+
+    }
+
 
     @BeforeEach
     protected void browserSetUp() {
         manager = new DriverManager();
         driver = manager.getDriver();
-        host = "http://" + manager.getHostAddress() + PORT.getValue();
+        host = "http://" + getAzureHost();
     }
     protected StartPage openPage() {
         driver.get(host);
@@ -44,4 +48,5 @@ public abstract class BaseTest {
     protected void terminateBrowser() {
         manager.closeDriver();
     }
+
 }

@@ -1,5 +1,6 @@
 package driver;
 
+import constants.ServiceConstants;
 import service.ConfigFileReader;
 import service.IConfigFileReader;
 import org.apache.logging.log4j.LogManager;
@@ -16,7 +17,7 @@ public class DriverManager {
     private static final ThreadLocal<WebDriver> driver = new ThreadLocal<>();
     private Browsers browser;
 
-    private static final IConfigFileReader driverConfig = new ConfigFileReader();
+    private static final IConfigFileReader driverConfig = new ConfigFileReader(ServiceConstants.PATH_TO_DRIVER_PROPERTY_FILE.getValue());
     private static final Logger logger = LogManager.getRootLogger();
 
 
@@ -28,10 +29,6 @@ public class DriverManager {
             }
         }
         return driver.get();
-    }
-
-    public String getHostAddress() {
-        return driverConfig.getHost();
     }
 
     public void closeDriver() {

@@ -10,7 +10,9 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-public class BackendContainerTest extends BaseBackendTest{
+import static service.AzureConnectConfig.getContainerAppHost;
+
+class BackendContainerTest extends BaseBackendTest{
 
     private Response response = null;
     private final String reportTitleExpected = "Ingredients distribution";
@@ -20,7 +22,7 @@ public class BackendContainerTest extends BaseBackendTest{
     protected void setup() {
         super.setup();
         String path = "/";
-        getRestClient().setBaseURI(config.getValue("api.container.host"));
+        getRestClient().setBaseURI(getContainerAppHost());
         ColumnPizzaModelRQ body = ColumnPizzaModelRQ.builder()
                 .pizzas(new Pizza[]
                         {Pizza.builder().name("Xavier").ingredients(new String[]{"Onion", "Jam", "Cheese"}).build(),

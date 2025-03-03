@@ -1,8 +1,8 @@
 package service;
 
-import constants.ServiceConstants;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import utils.RestClient;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -10,39 +10,30 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Properties;
 
-public class ConfigFileReader implements IConfigFileReader {
-    private static final Properties properties = new Properties();
+public class ConfigFileReader extends AbstractConfigReader {
+//    private static final Properties properties = new Properties();
 
-    public ConfigFileReader() {
-        try (InputStream input = Files.newInputStream(Paths.get(ServiceConstants.PATH_TO_DRIVER_PROPERTY_FILE.getValue()))) {
-            properties.load(input);
-        } catch (IOException e) {
-            Logger logger = LogManager.getRootLogger();
-            logger.warn("Driver.properties is not found at " + ServiceConstants.PATH_TO_DRIVER_PROPERTY_FILE.name());
-        }
+    public ConfigFileReader(String propertiesPath) {
+        super(propertiesPath);
     }
 
-    @Override
+
     public String getBrowser() {
         String browserName = properties.getProperty("webdriver.browser");
         return browserName.toUpperCase();
     }
 
-    @Override
+
     public Boolean isLocal() {
         return Boolean.parseBoolean(properties.getProperty("webdriver.is-local"));
     }
 
-    @Override
-    public String getHost() {
-        return properties.getProperty("http.host");
-    }
-    @Override
+
     public String getApplication() {
         return properties.getProperty("app.name");
     }
 
-    @Override
+
     public String getApiHost() {
         return properties.getProperty("api.host");
     }
@@ -51,6 +42,5 @@ public class ConfigFileReader implements IConfigFileReader {
     public String getValue(String key) {
         return properties.getProperty(key);
     }
-
 
 }

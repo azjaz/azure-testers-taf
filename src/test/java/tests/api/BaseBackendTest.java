@@ -1,5 +1,6 @@
 package tests.api;
 
+import constants.ServiceConstants;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import service.ConfigFileReader;
@@ -13,7 +14,7 @@ import java.util.List;
 
 public class BaseBackendTest {
     protected final ThreadLocal<RestClient> restClientThreadLocal = new ThreadLocal<>();
-    protected final IConfigFileReader config = new ConfigFileReader();
+    protected final IConfigFileReader config = new ConfigFileReader(ServiceConstants.PATH_TO_DRIVER_PROPERTY_FILE.getValue());
 
     protected final Logger logger = LogManager.getRootLogger();
     protected final List<String> expectedRegions = List.of("Aurelia", "Brovania", "Caledonia", "Deltaria", "Eldoria");
@@ -26,7 +27,7 @@ public class BaseBackendTest {
     protected void setup() {
         RestClient restClient = new RestClient();
         restClientThreadLocal.set(restClient);
-        getRestClient().setBaseURI(config.getApiHost());
+//        getRestClient().setBaseURI(config.getApiHost());
 
     }
 

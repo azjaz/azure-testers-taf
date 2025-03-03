@@ -12,12 +12,12 @@ import org.junit.jupiter.api.Test;
 import java.util.HashMap;
 import java.util.Map;
 
-import static constants.ServiceConstants.API;
+import static service.AzureConnectConfig.*;
 import static constants.ServiceConstants.FUNCTION;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
-public class FunctionAppEgressTest extends BaseBackendTest {
+class FunctionAppEgressTest extends BaseBackendTest {
 
     private Response response = null;
     private Map<String, String> params = new HashMap<>();
@@ -27,13 +27,14 @@ public class FunctionAppEgressTest extends BaseBackendTest {
     @Override
     protected void setup() {
         super.setup();
+        getRestClient().setBaseURI(getFunctionAppHost());
         EgressIngredientsModelRQ body = EgressIngredientsModelRQ.builder()
                 .ingredients(new Ingredient[]
                         {Ingredient.builder().name("Onions").quantity(2).build(),
                                 Ingredient.builder().name("Bell Peppers").quantity(1).build()})
                 .build();
-        String path = API.getValue() + FUNCTION.getValue();
-        params.put("code", config.getValue("api.function.token"));
+        String path = FUNCTION.getValue();
+        params.put("code", getFunctionApiToken(FUNCTION.getValue()));
         response = getRestClient().getResponse(path, Method.POST, params, body);
     }
 

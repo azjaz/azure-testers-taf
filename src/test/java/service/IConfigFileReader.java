@@ -6,8 +6,6 @@ public interface IConfigFileReader {
 
     Boolean isLocal();
 
-    String getHost();
-
     String getApplication();
 
     String getApiHost();

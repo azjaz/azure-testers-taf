@@ -1,5 +1,6 @@
 package driver;
 
+import constants.ServiceConstants;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -28,11 +29,11 @@ public enum Browsers {
         @Override
         public WebDriver getLocalWebDriver() {
             Map<String, Object> prefs = new HashMap<>();
-            prefs.put("profile.default_content_settings.popups", 0); // Disable popup blocking
-            prefs.put("download.default_directory", "C:\\Downloads"); // Set default download directory
-            prefs.put("download.prompt_for_download", false); // Disable download prompt
-            prefs.put("download.directory_upgrade", true); // Automatically upgrade to the specified directory
-            prefs.put("safebrowsing.enabled", true); // Enable safe browsing
+            prefs.put("profile.default_content_settings.popups", 0);
+            prefs.put("download.default_directory", "C:\\Downloads");
+            prefs.put("download.prompt_for_download", false);
+            prefs.put("download.directory_upgrade", true);
+            prefs.put("safebrowsing.enabled", true);
 
             ChromeOptions options = new ChromeOptions();
             options.addArguments("start-maximized");
@@ -51,7 +52,7 @@ public enum Browsers {
 
     };
 
-    private static final IConfigFileReader driverConfig = new ConfigFileReader();
+    private static final IConfigFileReader driverConfig = new ConfigFileReader(ServiceConstants.PATH_TO_DRIVER_PROPERTY_FILE.getValue());
 
     public abstract WebDriver getLocalWebDriver();
 
