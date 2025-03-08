@@ -31,11 +31,13 @@ public class BaseBackendTest {
     protected void setup() {
         RestClient restClient = new RestClient();
         restClientThreadLocal.set(restClient);
+        logger.info("Rest client is set up");
     }
 
     @AfterEach
     protected void afterClass() {
         restClientThreadLocal.remove();
+        logger.info("All clients were removed");
     }
 
 }
