@@ -35,6 +35,7 @@ public class AzureConfigReader extends AbstractConfigReader {
             logger.info("Access token is set");
             return response.jsonPath().getString("access_token");
         } else {
+            logger.warn("Failed to obtain access token: " + response.getBody().asString());
             throw new RuntimeException("Failed to obtain access token: " + response.getBody().asString());
         }
     }
