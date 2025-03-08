@@ -34,6 +34,11 @@ jobs:
           echo "azure.subscription=${{ secrets.AZURE_SUBSCRIPTION }}" >> azure.properties
           echo "azure.client=${{ secrets.AZURE_CLIENT }}" >> azure.properties
           echo "azure.tenant=${{ secrets.AZURE_TENANT }}" >> azure.properties
+      env:
+        AZURE_CLIENT: ${{ secrets.AZURE_CLIENT }}
+        AZURE_TENANT: ${{ secrets.AZURE_TENANT }}
+        AZURE_SUBSCRIPTION: ${{ secrets.AZURE_SUBSCRIPTION }}
+        AZURE_SECRET: ${{ secrets.AZURE_SECRET }}
 
     - name: Debug secrets
       run: |
