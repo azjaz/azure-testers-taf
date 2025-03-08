@@ -27,8 +27,6 @@ jobs:
         java-version: '11'
         distribution: 'temurin'
         cache: maven
-    - name: Build with Maven
-      run: mvn clean install
 
     - name: Create azure.properties
       run: |
@@ -36,6 +34,9 @@ jobs:
           echo "azure.subscription=${{ secrets.AZURE_SUBSCRIPTION }}" >> azure.properties
           echo "azure.client=${{ secrets.AZURE_CLIENT }}" >> azure.properties
           echo "azure.tenant=${{ secrets.AZURE_TENANT }}" >> azure.properties
+
+    - name: Build with Maven
+      run: mvn clean install
 
     - name: Run tests
       run: mvn test
