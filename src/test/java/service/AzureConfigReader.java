@@ -19,6 +19,7 @@ public class AzureConfigReader extends AbstractConfigReader {
 
 
     private String getAccessToken() {
+        logger.info("Obtaining access token");
         Map<String, String> params = new HashMap<>();
         params.put("grant_type", "client_credentials");
         params.put("client_id", getValue("azure.client"));
@@ -31,6 +32,7 @@ public class AzureConfigReader extends AbstractConfigReader {
                 .post(AUTH_URL);
 
         if (response.getStatusCode() == 200) {
+            logger.info("Access token is set");
             return response.jsonPath().getString("access_token");
         } else {
             throw new RuntimeException("Failed to obtain access token: " + response.getBody().asString());

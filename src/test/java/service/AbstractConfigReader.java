@@ -10,6 +10,8 @@ import java.nio.file.Paths;
 import java.util.Properties;
 
 public abstract class AbstractConfigReader {
+
+    protected final Logger logger = LogManager.getRootLogger();
     protected final Properties properties = new Properties();
 
     public AbstractConfigReader(String propertiesPath) {
