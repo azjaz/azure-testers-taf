@@ -31,7 +31,7 @@ jobs:
       run: mvn clean install
 
     - name: Create azure.properties
-        run: |
+      run: |
           echo "azure.secret=${{ secrets.AZURE_SECRET }}" >> azure.properties
           echo "azure.subscription=${{ secrets.AZURE_SUBSCRIPTION }}" >> azure.properties
           echo "azure.client=${{ secrets.AZURE_CLIENT }}" >> azure.properties
