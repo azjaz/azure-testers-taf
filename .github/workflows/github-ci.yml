@@ -39,6 +39,8 @@ jobs:
       run: |
           echo "Length of AZURE_CLIENT: ${#AZURE_CLIENT}"
           echo "Tenant ID: ${{ secrets.AZURE_TENANT }}"
+      env:
+        AZURE_CLIENT: ${{ secrets.AZURE_CLIENT }}
 
     - name: Build with Maven
       run: mvn clean install
