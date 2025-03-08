@@ -37,8 +37,8 @@ jobs:
 
     - name: Debug secrets
       run: |
-      echo "Client ID: ${{ secrets.AZURE_CLIENT }}"
-      echo "Tenant ID: ${{ secrets.AZURE_TENANT }}"
+          echo "Client ID: ${{ secrets.AZURE_CLIENT }}"
+          echo "Tenant ID: ${{ secrets.AZURE_TENANT }}"
 
     - name: Build with Maven
       run: mvn clean install
