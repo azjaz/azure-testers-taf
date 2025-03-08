@@ -1,7 +1,7 @@
 package driver;
 
 import constants.ServiceConstants;
-import service.ConfigFileReader;
+import service.UIConfigReader;
 import service.IConfigFileReader;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -16,15 +16,14 @@ public class DriverManager {
 
     private static final ThreadLocal<WebDriver> driver = new ThreadLocal<>();
     private Browsers browser;
-
-    private static final IConfigFileReader driverConfig = new ConfigFileReader(ServiceConstants.PATH_TO_DRIVER_PROPERTY_FILE.getValue());
+    private final UIConfigReader config = new UIConfigReader(ServiceConstants.PATH_TO_DRIVER_PROPERTY_FILE.getValue());
     private static final Logger logger = LogManager.getRootLogger();
 
 
     public WebDriver getDriver() {
-        browser = Browsers.valueOf(driverConfig.getBrowser());
+        browser = Browsers.valueOf(config.getBrowser());
         if (driver.get() == null) {
-            if (driverConfig.isLocal()) {
+            if (config.isLocal()) {
                 driver.set(browser.getLocalWebDriver());
             }
         }

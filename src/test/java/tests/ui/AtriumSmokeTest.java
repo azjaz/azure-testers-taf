@@ -8,9 +8,6 @@ import java.util.List;
 
 public class AtriumSmokeTest extends BaseTest {
 
-    private final List<String> expectedIngredientsItems = List.of("Pepperoni", "Mushrooms",
-            "Onions", "Bell Peppers", "Olives", "Pineapple", "Ham", "Sausage", "Bacon", "Jalapenos", "Tomatoes");
-
     private final String ingredient = RandomStringUtils.random(8, true, false);
 
 

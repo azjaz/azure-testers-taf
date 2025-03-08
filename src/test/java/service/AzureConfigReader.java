@@ -1,35 +1,28 @@
 package service;
 
-import constants.ServiceConstants;
 import io.restassured.response.Response;
-import service.AbstractConfigReader;
-import service.ConfigFileReader;
-import service.IConfigFileReader;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 import static constants.ServiceConstants.*;
 import static io.restassured.RestAssured.given;
 
-public class AzureConnectConfig extends AbstractConfigReader {
+public class AzureConfigReader extends AbstractConfigReader {
 
-    private static final IConfigFileReader azureConfig = new ConfigFileReader(ServiceConstants.PATH_TO_AZURE_PROPERTIES_FILE.getValue());
-    private static final String AUTH_URL = AZURE_AUTH_URL.getValue() + azureConfig.getValue("azure.tenant")
+    private final String AUTH_URL = AZURE_AUTH_URL.getValue() + getValue("azure.tenant")
             + AZURE_OAUTH_PATH.getValue();
 
-    public AzureConnectConfig(String propertiesPath) {
+    public AzureConfigReader(String propertiesPath) {
         super(propertiesPath);
     }
 
 
-    private static String getAccessToken() {
+    private String getAccessToken() {
         Map<String, String> params = new HashMap<>();
         params.put("grant_type", "client_credentials");
-        params.put("client_id", azureConfig.getValue("azure.client"));
-        params.put("client_secret", azureConfig.getValue("azure.secret"));
+        params.put("client_id", getValue("azure.client"));
+        params.put("client_secret", getValue("azure.secret"));
         params.put("resource", AZURE_MGMT_URL.getValue());
 
         Response response = given()
@@ -44,10 +37,10 @@ public class AzureConnectConfig extends AbstractConfigReader {
         }
     }
 
-    public static String getAzureHost() {
+    public String getAzureHost() {
         String apiURL = AZURE_MGMT_URL.getValue() + AZURE_SUBSCRIPTIONS_NODE.getValue()
-                + azureConfig.getValue("azure.subscription") + AZURE_RG_NODE.getValue()
-                + azureConfig.getValue("azure.rg") + AZURE_PUBLIC_IP_RESOURCE.getValue()
+                + getValue("azure.subscription") + AZURE_RG_NODE.getValue()
+                + getValue("azure.rg") + AZURE_PUBLIC_IP_RESOURCE.getValue()
                 + getPublicIPResourceName().get() + "?api-version=2024-05-01";
 
         Response response = getAzureResourceResponse(apiURL);
@@ -58,10 +51,10 @@ public class AzureConnectConfig extends AbstractConfigReader {
 
     }
 
-    public static String getContainerAppHost() {
+    public String getContainerAppHost() {
         String containerURL = AZURE_MGMT_URL.getValue() + AZURE_SUBSCRIPTIONS_NODE.getValue()
-                + azureConfig.getValue("azure.subscription") + AZURE_RG_NODE.getValue()
-                + azureConfig.getValue("azure.rg") + AZURE_CONTAINER_APP_RESOURCE.getValue()
+                + getValue("azure.subscription") + AZURE_RG_NODE.getValue()
+                + getValue("azure.rg") + AZURE_CONTAINER_APP_RESOURCE.getValue()
                 + getContainerAppResourceName().get() + "?api-version=2024-03-01";
 
         Response response = getAzureResourceResponse(containerURL);
@@ -69,10 +62,10 @@ public class AzureConnectConfig extends AbstractConfigReader {
 
     }
 
-    public static String getFunctionAppHost() {
+    public String getFunctionAppHost() {
         String functionURL = AZURE_MGMT_URL.getValue() + AZURE_SUBSCRIPTIONS_NODE.getValue()
-                + azureConfig.getValue("azure.subscription") + AZURE_RG_NODE.getValue()
-                + azureConfig.getValue("azure.rg") + AZURE_FUNCTION_APP_RESOURCE.getValue()
+                + getValue("azure.subscription") + AZURE_RG_NODE.getValue()
+                + getValue("azure.rg") + AZURE_FUNCTION_APP_RESOURCE.getValue()
                 + getFunctionAppResourceName().get() + "?api-version=2024-04-01";
         Response response = getAzureResourceResponse(functionURL);
 
@@ -81,12 +74,12 @@ public class AzureConnectConfig extends AbstractConfigReader {
 
     }
 
-    private static Optional<String> getPublicIPResourceName() {
+    private Optional<String> getPublicIPResourceName() {
         List<String> allResources = getAllResourcesNames().jsonPath().getList("value.name");
         return allResources.stream().filter(val -> val.contains("-ip")).findFirst();
     }
 
-    private static Optional<String> getContainerAppResourceName() {
+    private Optional<String> getContainerAppResourceName() {
         List<String> allResources = getAllResourcesNames().jsonPath().getList("value.name");
         return allResources.stream()
                 .filter(val -> val.contains("cont"))
@@ -95,7 +88,20 @@ public class AzureConnectConfig extends AbstractConfigReader {
 
     }
 
-    private static Optional<String> getFunctionAppResourceName() {
+    public Optional<String> getVMResourceName() {
+        List<String> allResources = getAllResourcesNames().jsonPath().getList("value.name");
+        List<String> vmResources = allResources.stream()
+                .filter(val -> val.contains("vm-"))
+                .collect(Collectors.toList());
+
+        return vmResources.stream()
+                .map(val -> Arrays.asList(val.split("-")).subList(1, 2))
+                .flatMap(List::stream)
+                .distinct()
+                .findFirst();
+    }
+
+    private Optional<String> getFunctionAppResourceName() {
         List<String> allResources = getAllResourcesNames().jsonPath().getList("value.name");
         return allResources.stream()
                 .filter(val -> val.contains("fnapp-"))
@@ -103,7 +109,7 @@ public class AzureConnectConfig extends AbstractConfigReader {
 
     }
 
-    public static Response getAzureResourceResponse(String apiURL) {
+    public Response getAzureResourceResponse(String apiURL) {
         String accessToken = getAccessToken();
         return given()
                 .header("Authorization", "Bearer " + accessToken)
@@ -112,20 +118,20 @@ public class AzureConnectConfig extends AbstractConfigReader {
                 .get(apiURL);
     }
 
-    public static Response getAllResourcesNames() {
+    private Response getAllResourcesNames() {
         String allResourcesUrl = AZURE_MGMT_URL.getValue() + AZURE_SUBSCRIPTIONS_NODE.getValue()
-                + azureConfig.getValue("azure.subscription")
+                + getValue("azure.subscription")
                 + AZURE_RG_NODE.getValue()
-                + azureConfig.getValue("azure.rg")
+                + getValue("azure.rg")
                 + "/resources?api-version=2021-01-01";
 
         return getAzureResourceResponse(allResourcesUrl);
     }
 
-    public static String getFunctionApiToken(String functionName) {
+    public String getFunctionApiToken(String functionName) {
         String functionTokenUrl = AZURE_MGMT_URL.getValue() + AZURE_SUBSCRIPTIONS_NODE.getValue() +
-                azureConfig.getValue("azure.subscription") +
-                AZURE_RG_NODE.getValue() + azureConfig.getValue("azure.rg") +
+                getValue("azure.subscription") +
+                AZURE_RG_NODE.getValue() + getValue("azure.rg") +
                 AZURE_FUNCTION_APP_RESOURCE.getValue() +
                 getFunctionAppResourceName().get() +
                 AZURE_FUNCTIONS_NODE.getValue() +

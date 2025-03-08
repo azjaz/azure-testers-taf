@@ -1,14 +1,11 @@
 package driver;
 
-import constants.ServiceConstants;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
-import service.ConfigFileReader;
-import service.IConfigFileReader;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -51,8 +48,6 @@ public enum Browsers {
         }
 
     };
-
-    private static final IConfigFileReader driverConfig = new ConfigFileReader(ServiceConstants.PATH_TO_DRIVER_PROPERTY_FILE.getValue());
 
     public abstract WebDriver getLocalWebDriver();
 
