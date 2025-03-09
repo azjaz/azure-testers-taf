@@ -26,6 +26,7 @@ public class AzureConfigReader extends AbstractConfigReader {
         params.put("client_secret", getValue("azure.secret"));
         params.put("resource", AZURE_MGMT_URL.getValue());
         logger.info("params map " + params.get("grant_type"));
+        logger.info("params clientId " + params.get("client_id"));
         Response response = given()
                 .contentType("application/x-www-form-urlencoded")
                 .formParams(params)
