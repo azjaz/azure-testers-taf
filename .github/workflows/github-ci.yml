@@ -30,10 +30,10 @@ jobs:
 
     - name: Create azure.properties
       run: |
-          echo "azure.secret=${{ secrets.AZURE_SECRET }}" >> azure.properties
-          echo "azure.subscription=${{ secrets.AZURE_SUBSCRIPTION }}" >> azure.properties
-          echo "azure.client=${{ secrets.AZURE_CLIENT }}" >> azure.properties
-          echo "azure.tenant=${{ secrets.AZURE_TENANT }}" >> azure.properties
+          echo "azure.secret=${{ secrets.AZURE_SECRET }}" >> src/test/resources/azure.properties
+          echo "azure.subscription=${{ secrets.AZURE_SUBSCRIPTION }}" >> src/test/resources/azure.properties
+          echo "azure.client=${{ secrets.AZURE_CLIENT }}" >> src/test/resources/azure.properties
+          echo "azure.tenant=${{ secrets.AZURE_TENANT }}" >> src/test/resources/azure.properties
       env:
         AZURE_CLIENT: ${{ secrets.AZURE_CLIENT }}
         AZURE_TENANT: ${{ secrets.AZURE_TENANT }}
@@ -41,7 +41,7 @@ jobs:
         AZURE_SECRET: ${{ secrets.AZURE_SECRET }}
 
     - name: Show azure.properties content
-      run: cat azure.properties
+      run: cat src/test/resources/azure.properties
 
     - name: Debug secrets
       run: |
