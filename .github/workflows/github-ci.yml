@@ -30,6 +30,7 @@ jobs:
 
     - name: Create azure.properties
       run: |
+          sed -i -e '$a\' src/test/resources/azure.properties
           echo "azure.secret=${{ secrets.AZURE_SECRET }}" >> src/test/resources/azure.properties
           echo "azure.subscription=${{ secrets.AZURE_SUBSCRIPTION }}" >> src/test/resources/azure.properties
           echo "azure.client=${{ secrets.AZURE_CLIENT }}" >> src/test/resources/azure.properties
