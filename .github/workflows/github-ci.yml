@@ -40,6 +40,9 @@ jobs:
         AZURE_SUBSCRIPTION: ${{ secrets.AZURE_SUBSCRIPTION }}
         AZURE_SECRET: ${{ secrets.AZURE_SECRET }}
 
+    - name: Show azure.properties content
+      run: cat azure.properties
+
     - name: Debug secrets
       run: |
           echo "Length of AZURE_CLIENT: ${#AZURE_CLIENT}"
