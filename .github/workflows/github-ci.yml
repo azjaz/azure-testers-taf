@@ -41,21 +41,6 @@ jobs:
         AZURE_SUBSCRIPTION: ${{ secrets.AZURE_SUBSCRIPTION }}
         AZURE_SECRET: ${{ secrets.AZURE_SECRET }}
 
-    - name: Show azure.properties content
-      run: cat src/test/resources/azure.properties
-
-    - name: Debug secrets
-      run: |
-          echo "Length of AZURE_CLIENT: ${#AZURE_CLIENT}"
-          echo "Length of AZURE_TENANT: ${#AZURE_TENANT}"
-          echo "Length of AZURE_SUBSCRIPTION: ${#AZURE_SUBSCRIPTION}"
-          echo "Length of AZURE_SECRET: ${#AZURE_SECRET}"
-      env:
-        AZURE_CLIENT: ${{ secrets.AZURE_CLIENT }}
-        AZURE_TENANT: ${{ secrets.AZURE_TENANT }}
-        AZURE_SUBSCRIPTION: ${{ secrets.AZURE_SUBSCRIPTION }}
-        AZURE_SECRET: ${{ secrets.AZURE_SECRET }}
-
     - name: Build with Maven
       run: mvn clean
 
