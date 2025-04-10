@@ -2,6 +2,10 @@ package pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 public class OrderQueuePage extends AbstractPage {
 
@@ -9,7 +13,10 @@ public class OrderQueuePage extends AbstractPage {
     private String xpathToOrderProcessingButton = "//a[contains(text(), '%s')]";
     private String xpathToCompleteOrderLink = "//h1[contains(text(), '%s')]/..//a[contains(text(), 'Complete')]";
 
-    private final long EXPIRY_TIME = 60;
+    @FindBy(xpath = "//h1[contains(text(), 'In Work Orders')]/..//tbody//ul/li")
+    private List<WebElement> listOfOrderAttributes;
+
+    private final long EXPIRY_TIME = 61;
 
     public OrderQueuePage takeOrderInWork(String queueBlockInQueue, String clientName) {
         WebElement orderBlock = waitVisibility(driver.findElements(By.xpath(String.format(xpathToOrders, queueBlockInQueue, clientName))).stream().reduce((a, b) -> b).get());
@@ -40,5 +47,15 @@ public class OrderQueuePage extends AbstractPage {
                 .stream().reduce((a, b) -> b).get())
                 .click();
         return this;
+    }
+
+    public List<String> getOrderAttributes() {
+       return listOfOrderAttributes
+                .stream()
+                .map(element -> element
+                        .getText()
+                        .split(":")[0])
+                .distinct()
+                .collect(Collectors.toList());
     }
 }

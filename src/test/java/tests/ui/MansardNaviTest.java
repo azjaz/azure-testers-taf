@@ -3,6 +3,8 @@ package tests.ui;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 class MansardNaviTest extends BaseTest{
 
     private final String clientName = testString;
@@ -51,5 +53,18 @@ class MansardNaviTest extends BaseTest{
                 .getStatusOfProceedOrder(queueBlockInWork);
 
         Assertions.assertThat(actualOrderStatus).contains(expectedOrderStatus);
+    }
+
+    @Test
+    void checkAllDataOnInWorkOrder() {
+        List<String> expectedOrderAttributes = List.of("Received at", "Client name", "Client contact",
+                "Pizza", "Price", "Status");
+
+        List<String> actualOrderAttributes = openPage()
+                .pressButtonOrderPizza(expectedPizzaItemsFirstPage.get(1))
+                .sendOrder(clientName, String.valueOf(testNumber))
+                .getOrderAttributes();
+
+        Assertions.assertThat(actualOrderAttributes).containsExactlyElementsOf(expectedOrderAttributes);
     }
 }
